@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EventBridge – Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ─── Tokens ─── */
+    :root {
+      --blue:       #2563EB;
+      --blue-dark:  #1d4ed8;
+      --blue-light: #DBEAFE;
+      --blue-pale:  #EFF6FF;
+      --white:      #FFFFFF;
+      --dark:       #1F2937;
+      --muted:      #6B7280;
+      --border:     #E5E7EB;
+      --radius:     16px;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--dark); background: #fff; }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 0;
+      position: sticky; top: 0; z-index: 1000;
+    }
+
+    .navbar-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--blue) !important;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-link {
+      color: var(--dark) !important;
+      font-weight: 500;
+      font-size: 0.9rem;
+      padding: 0.4rem 0.8rem !important;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background: var(--blue-light);
+      color: var(--blue) !important;
+    }
+
+    .btn-nav-login {
+      background: var(--blue);
+      color: #fff !important;
+      border-radius: 10px;
+      padding: 0.45rem 1.2rem !important;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-nav-login:hover {
+      background: var(--blue-dark) !important;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.3);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(150deg, #eff6ff 0%, #dbeafe 40%, #bfdbfe 100%);
+      padding: 7rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Background circles */
+    .hero::before {
+      content: '';
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(37,99,235,0.06);
+      position: absolute; top: -200px; right: -150px;
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(37,99,235,0.1);
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 .highlight { color: var(--blue); }
+
+    .hero p.lead {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .btn-primary-blue {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 0.85rem 2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .btn-primary-blue:hover {
+      background: var(--blue-dark);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37,99,235,0.32);
+    }
+
+    .btn-outline-blue {
+      background: transparent;
+      color: var(--blue);
+      border: 2px solid var(--blue);
+      border-radius: 12px;
+      padding: 0.85rem 2rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-outline-blue:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Hero stats row */
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-item .num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.8rem;
+      color: var(--blue);
+      line-height: 1;
+    }
+
+    .stat-item .label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin-top: 0.2rem;
+    }
+
+    /* Hero visual card */
+    .hero-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(37,99,235,0.14), 0 4px 16px rgba(0,0,0,0.07);
+      padding: 1.5rem;
+      max-width: 360px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-card-icon {
+      width: 44px; height: 44px;
+      background: var(--blue-light);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue); font-size: 1.1rem;
+    }
+
+    .event-mini-list .event-mini-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .event-mini-list .event-mini-item:last-child { border-bottom: none; }
+
+    .event-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .event-mini-item .info { flex: 1; }
+    .event-mini-item .info strong { font-size: 0.85rem; display: block; }
+    .event-mini-item .info span { font-size: 0.75rem; color: var(--muted); }
+
+    .event-mini-item .badge-reg {
+      font-size: 0.7rem;
+      background: var(--blue-light);
+      color: var(--blue);
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-weight: 600;
+    }
+
+    /* ─── SECTION HEADING ─── */
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.2rem;
+      color: var(--dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 500px;
+    }
+
+    /* ─── UPCOMING EVENTS CARDS ─── */
+    .events-section { padding: 5rem 0; background: #fff; }
+
+    .event-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      background: #fff;
+      height: 100%;
+    }
+
+    .event-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(37,99,235,0.12);
+    }
+
+    .event-card-img {
+      height: 160px;
+      background: linear-gradient(135deg, #2563EB, #60a5fa);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      position: relative;
+    }
+
+    .event-card-img .date-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 10px;
+      padding: 0.3rem 0.6rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .event-card-img .date-badge .day {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem; color: var(--blue); display: block;
+    }
+
+    .event-card-img .date-badge .mon {
+      font-size: 0.65rem; color: var(--muted); font-weight: 600;
+      text-transform: uppercase; display: block;
+    }
+
+    .event-card-body { padding: 1.1rem 1.25rem 1.25rem; }
+
+    .event-card-body .club-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .event-card-body h5 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 0.3rem 0 0.5rem;
+    }
+
+    .event-card-body .meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex; gap: 0.75rem; margin-bottom: 1rem;
+    }
+
+    .event-card-body .meta i { color: var(--blue); }
+
+    .btn-reg-sm {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: background 0.2s;
+    }
+
+    .btn-reg-sm:hover { background: var(--blue-dark); color: #fff; }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-section {
+      background: var(--blue-pale);
+      padding: 5rem 0;
+    }
+
+    .step-card {
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      height: 100%;
+      transition: box-shadow 0.2s;
+    }
+
+    .step-card:hover { box-shadow: 0 8px 30px rgba(37,99,235,0.1); }
+
+    .step-number {
+      width: 52px; height: 52px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.4rem;
+      margin: 0 auto 1.25rem;
+    }
+
+    .step-card h5 {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .step-card p { font-size: 0.87rem; color: var(--muted); line-height: 1.6; margin: 0; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.7);
+      padding: 2.5rem 0;
+      font-size: 0.85rem;
+    }
+
+    footer .brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+    <!-- ════════════════ NAVBAR ════════════════ -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <i class="fa-solid fa-calendar-star me-2"></i>EventBridge
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto gap-1 align-items-center">
+          <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fa fa-house me-1"></i>Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html"><i class="fa fa-calendar-days me-1"></i>Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fa fa-calendar me-1"></i>Calendar</a></li>
+          <li class="nav-item"><a class="nav-link" href="clubs.html"><i class="fa fa-shield-halved me-1"></i>Clubs</a></li>
+          <li class="nav-item"><a class="nav-link" href="register-club.html"><i class="fa fa-users me-1"></i>Register Club</a></li>
+          <li class="nav-item ms-2">
+            <a class="nav-link btn-nav-login" href="login.html"><i class="fa fa-arrow-right-to-bracket me-1"></i>Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════ HERO ════════════════ -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center g-5">
+
+        <!-- Left: Text -->
+        <div class="col-lg-6">
+          <div class="hero-badge">
+            <i class="fa fa-sparkles"></i> New events added this week
+          </div>
+          <h1>Your gateway to<br/><span class="highlight">campus events</span></h1>
+          <p class="lead">
+            Discover, register, and manage college events all in one place.
+            From tech fests to cultural nights — EventBridge keeps you connected.
+          </p>
+          <div class="d-flex flex-wrap gap-3">
+            <a href="events.html" class="btn-primary-blue">
+              <i class="fa fa-calendar-days"></i> Browse Events
+            </a>
+            <a href="clubs.html" class="btn-outline-blue">
+              <i class="fa fa-shield-halved"></i> View Clubs
+            </a>
+            <a href="register-student.html" class="btn-outline-blue">
+              <i class="fa fa-user-plus"></i> Register
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <div class="num">50+</div>
+              <div class="label">Events Listed</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">3.2K</div>
+              <div class="label">Registrations</div>
+            </div>
+            <div class="stat-item">
+              <div class="num">28</div>
+              <div class="label">Active Clubs</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Hero Card -->
+        <div class="col-lg-6 d-flex justify-content-center">
+          <div class="hero-card w-100" style="max-width:360px;">
+            <div class="hero-card-header">
+              <div class="hero-card-icon"><i class="fa fa-calendar-check"></i></div>
+              <div>
+                <div style="font-weight:700;font-size:0.95rem;">Upcoming Events</div>
+                <div style="font-size:0.78rem;color:var(--muted);">January 2025</div>
+              </div>
+            </div>
+
+            <div class="event-mini-list">
+              <div class="event-mini-item">
+                <div class="event-dot" style="background:#2563EB;"></div>
+                <div class="info">
+                  <strong>TechFest 2025</strong>
+                  <span><i class="fa fa-clock me-1"></i>Jan 15 · 10:00 AM</span>
+                </div>
+                <span class="badge-reg">Open</span>
+              </div>
+              <div class="event-mini-item">
+                <div class="event-dot" style="background:#10b981;"></div>
+                <div class="info">
+                  <strong>Hackathon – Code & Build</strong>
+                  <span><i class="fa fa-clock me-1"></i>Jan 22 · 9:00 AM</span>
+                </div>
+                <span class="badge-reg">Open</span>
+              </div>
+              <div class="event-mini-item">
+                <div class="event-dot" style="background:#f59e0b;"></div>
+                <div class="info">
+                  <strong>Cultural Night 2025</strong>
+                  <span><i class="fa fa-clock me-1"></i>Jan 28 · 6:00 PM</span>
+                </div>
+                <span class="badge-reg" style="background:#fef3c7;color:#92400e;">Soon</span>
+              </div>
+              <div class="event-mini-item">
+                <div class="event-dot" style="background:#8b5cf6;"></div>
+                <div class="info">
+                  <strong>Workshop: UI/UX Design</strong>
+                  <span><i class="fa fa-clock me-1"></i>Feb 3 · 2:00 PM</span>
+                </div>
+                <span class="badge-reg">Open</span>
+              </div>
+            </div>
+
+            <a href="events.html" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;font-size:0.83rem;color:var(--blue);font-weight:600;text-decoration:none;margin-top:1rem;">
+              View all events <i class="fa fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ UPCOMING EVENTS ════════════════ -->
+  <section class="events-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">What's happening</div>
+        <h2 class="section-title">Upcoming Campus Events</h2>
+        <p class="section-sub mx-auto">Stay updated with all the latest events from your college clubs and departments.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Event Card 1 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="event-card">
+            <div class="event-card-img" style="background:linear-gradient(135deg,#2563EB,#60a5fa);">
+              🖥️
+              <div class="date-badge">
+                <span class="day">15</span>
+                <span class="mon">JAN</span>
+              </div>
+            </div>
+            <div class="event-card-body">
+              <div class="club-tag">CS Club</div>
+              <h5>TechFest 2025</h5>
+              <div class="meta">
+                <span><i class="fa fa-clock"></i> 10:00 AM</span>
+                <span><i class="fa fa-location-dot"></i> Main Auditorium</span>
+              </div>
+              <a href="events.html" class="btn-reg-sm"><i class="fa fa-ticket"></i> Register</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 2 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="event-card">
+            <div class="event-card-img" style="background:linear-gradient(135deg,#059669,#34d399);">
+              💻
+              <div class="date-badge">
+                <span class="day">22</span>
+                <span class="mon">JAN</span>
+              </div>
+            </div>
+            <div class="event-card-body">
+              <div class="club-tag">Coding Club</div>
+              <h5>Hackathon – Code &amp; Build</h5>
+              <div class="meta">
+                <span><i class="fa fa-clock"></i> 9:00 AM</span>
+                <span><i class="fa fa-location-dot"></i> Lab Block</span>
+              </div>
+              <a href="events.html" class="btn-reg-sm"><i class="fa fa-ticket"></i> Register</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 3 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="event-card">
+            <div class="event-card-img" style="background:linear-gradient(135deg,#d97706,#fbbf24);">
+              🎭
+              <div class="date-badge">
+                <span class="day">28</span>
+                <span class="mon">JAN</span>
+              </div>
+            </div>
+            <div class="event-card-body">
+              <div class="club-tag">Cultural Club</div>
+              <h5>Cultural Night 2025</h5>
+              <div class="meta">
+                <span><i class="fa fa-clock"></i> 6:00 PM</span>
+                <span><i class="fa fa-location-dot"></i> Open Air Stage</span>
+              </div>
+              <a href="events.html" class="btn-reg-sm"><i class="fa fa-ticket"></i> Register</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 4 -->
+        <div class="col-md-6 col-lg-3">
+          <div class="event-card">
+            <div class="event-card-img" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);">
+              🎨
+              <div class="date-badge">
+                <span class="day">03</span>
+                <span class="mon">FEB</span>
+              </div>
+            </div>
+            <div class="event-card-body">
+              <div class="club-tag">Design Club</div>
+              <h5>Workshop: UI/UX Design</h5>
+              <div class="meta">
+                <span><i class="fa fa-clock"></i> 2:00 PM</span>
+                <span><i class="fa fa-location-dot"></i> Seminar Hall</span>
+              </div>
+              <a href="events.html" class="btn-reg-sm"><i class="fa fa-ticket"></i> Register</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="events.html" class="btn-outline-blue" style="margin: 0 auto;">
+          <i class="fa fa-calendar-days"></i> View All Events
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ CLUBS PREVIEW ════════════════ -->
+  <section style="padding:5rem 0;background:#F9FAFB;">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">Campus Community</div>
+        <h2 class="section-title">Active College Clubs</h2>
+        <p class="section-sub mx-auto">Each club runs its own events. Click a club to explore what they're organising.</p>
+      </div>
+      <div class="row g-3">
+        <!-- Club Card -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s;cursor:pointer" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#DBEAFE;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">💻</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">CS Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">3 Events</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#d1fae5;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">⌨️</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Coding Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">2 Events</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#fef3c7;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">🎭</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Cultural Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">2 Events</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#ede9fe;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">🎨</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Design Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">2 Events</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#fee2e2;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">🏆</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Sports Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">1 Event</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#cffafe;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">🤖</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">AI Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">2 Events</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#fce7f3;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">🎵</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Music Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">1 Event</div>
+            </div>
+          </a>
+        </div>
+        <div class="col-6 col-md-4 col-lg-3">
+          <a href="clubs.html" style="text-decoration:none">
+            <div style="background:#fff;border:1.5px solid #E5E7EB;border-radius:16px;padding:1.4rem 1rem;text-align:center;transition:transform .2s,box-shadow .2s" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(37,99,235,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+              <div style="width:52px;height:52px;background:#f5f5f4;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto .75rem">📷</div>
+              <div style="font-weight:700;font-size:.9rem;color:#1F2937">Photo Club</div>
+              <div style="font-size:.75rem;color:#6B7280;margin-top:.2rem">1 Event</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="clubs.html" class="btn-outline-blue" style="margin:0 auto">
+          <i class="fa fa-shield-halved"></i> Explore All Clubs
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════ HOW IT WORKS ════════════════ -->
+  <section class="how-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-label">Simple Process</div>
+        <h2 class="section-title">How EventBridge Works</h2>
+        <p class="section-sub mx-auto">Three simple steps to never miss a campus event again.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <h5>Create Your Account</h5>
+            <p>Sign up with your college email and student ID. It's free and takes under a minute.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <h5>Browse &amp; Discover Events</h5>
+            <p>Explore events from all clubs and departments. Filter by type, date, or department.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <h5>Register &amp; Attend</h5>
+            <p>Register with one click, get a confirmation, and track your events in your personal calendar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- ════════════════ FOOTER ════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <div class="brand"><i class="fa fa-calendar-star me-2"></i>EventBridge</div>
+          <div class="mt-1" style="font-size:0.8rem;">DBMS College Project · 2025</div>
+        </div>
+        <div class="col-md-4 text-center mt-3 mt-md-0">
+          <a href="index.html" class="me-3">Home</a>
+          <a href="events.html" class="me-3">Events</a>
+          <a href="calendar.html" class="me-3">Calendar</a>
+          <a href="clubs.html" class="me-3">Clubs</a>
+          <a href="register-club.html" class="me-3">Register Club</a>
+          <a href="login.html">Login</a>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          © 2025 EventBridge. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
